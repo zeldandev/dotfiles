@@ -14,7 +14,7 @@ Welcome to my personal dotfiles. This repository contains the configuration file
 
 ## 🌟 Key Features & Tools
 
-- **💻 Window Managers:** `i3wm` and `Qtile` with `Rofi` and `Polybar`.
+- **💻 Window Managers:** `i3wm` with `Rofi` and `Polybar`.
 - **📟 Terminal:** `Kitty` & `iTerm2`.
 - **🐚 Shell (Zsh):** Highly customized with Vi-mode, `Starship` prompt, `zoxide` (smart cd), and `fzf` integration.
 - **📝 Editor (Neovim):** Lua-based setup with native LSP, Telescope, and unified bindings.
