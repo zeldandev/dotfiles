@@ -46,13 +46,13 @@ esac
 
 [ -e "$HOME/.docker/init-zsh.sh" ] && source "$HOME/.docker/init-zsh.sh" || true # Added by docker desktop
 
-#asdf -- language version manager
-if command -v asdf >/dev/null 2>&1; then
-  ASDF_SCRIPT="$(brew --prefix asdf)/libexec/asdf.sh"
-  [ -f "$ASDF_SCRIPT" ] && . "$ASDF_SCRIPT"
-
-  #GOLANG
-  [ -d "$HOME/.asdf/plugins/golang" ] && source "$HOME/.asdf/plugins/golang/set-env.zsh"
+# mise -- language version manager (replaces asdf)
+if command -v mise >/dev/null 2>&1; then
+  if [ -n "$ZSH_VERSION" ]; then
+    eval "$(mise activate zsh)"
+  elif [ -n "$BASH_VERSION" ]; then
+    eval "$(mise activate bash)"
+  fi
 fi
 
 # Initialize Zoxide (smart directory jumper)
