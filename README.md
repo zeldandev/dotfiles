@@ -35,10 +35,18 @@ Make sure you have `git` and `stow` installed on your system.
    cd ~/dotfiles
    ```
 2. **Run the bootstrap script:**
+   Depending on your operating system and desired environment, run one of the following commands:
    ```bash
+   # Main Linux machine (Installs Common + DankMaterialShell)
+   ./setup.sh --dms
+
+   # Virtual Machine (Installs Common + i3/X11)
+   ./setup.sh --i3
+
+   # macOS (Automatically detected, installs Common + macOS specifics)
    ./setup.sh
    ```
-   > **Note:** The script will automatically initialize Git submodules (Zsh plugins, TPM), configure VSCodium, and symlink all files securely using `stow --restow`.
+   > **Note:** The script is intelligent. It will install Homebrew, initialize Git submodules (Zsh plugins, TPM), configure VSCodium, and symlink all files securely using `stow --restow <module>`.
 
 3. **Install OS-specific apps:**
    Check the `misc/` folder for additional scripts to install missing packages on Debian-based systems or macOS.
@@ -55,12 +63,16 @@ To quickly view the complete shortcut list while working:
 
 You can manually read the cheatsheet in [`cheatsheet.md`](cheatsheet.md).
 
-## 📂 Repository Structure
+## 📂 Repository Structure (Modular)
 
-- **`.config/`**: Main configuration folder (nvim, tmux, i3, kitty, shell, etc.).
-- **`misc/`**: Helper scripts for OS-specific package installations (Fonts, Brew, NVM).
+This repository uses **Stow Packages** to keep configs modular and clean across different OS and environments:
+
+- **`common/`**: The base module installed everywhere (Neovim, Zsh, Tmux, Kitty).
+- **`wayland-dms/`**: Wayland environment configs (DankMaterialShell).
+- **`x11-i3/`**: X11 environment configs (i3, Polybar, Rofi, Picom) for VMs.
+- **`macos/`**: macOS specific GUI apps (iTerm2).
+- **`misc/`**: Helper scripts for OS-specific package installations.
 - **`setup.sh`**: The core idempotent bootstrap script.
-- **`cheatsheet.md`**: Global unified keybindings documentation.
 
 ---
 *Managed with ❤️ and GNU Stow.*

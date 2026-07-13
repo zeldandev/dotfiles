@@ -68,9 +68,27 @@ update_submodules() {
 }
 
 symlink_dotfiles() {
-  info "Vinculando dotfiles con GNU Stow..."
-  # Usamos --restow para asegurar idempotencia (limpia links muertos y recrea)
-  stow --restow .
+  local target_env="$1"
+  
+  info "Vinculando paquete base (common)..."
+  stow --restow common
+  
+  if [[ "$MACHINE" == "Mac" ]]; then
+    info "Detectado macOS. Vinculando paquete macos..."
+    if [ -d "macos" ]; then stow --restow macos; fi
+  else
+    if [[ "$target_env" == "--dms" ]]; then
+      info "Vinculando paquete Wayland (DankMaterialShell)..."
+      if [ -d "wayland-dms" ]; then stow --restow wayland-dms; fi
+    elif [[ "$target_env" == "--i3" ]]; then
+      info "Vinculando paquete X11 (i3)..."
+      if [ -d "x11-i3" ]; then stow --restow x11-i3; fi
+    else
+      warn "No se especificó entorno gráfico para Linux (--dms o --i3). Solo se instaló la base."
+      info "Usa './setup.sh --dms' o './setup.sh --i3' para entornos completos."
+    fi
+  fi
+  
   success "Dotfiles vinculados correctamente."
 }
 
@@ -87,11 +105,12 @@ setup_vscodium() {
 # ==============================================================================
 
 main() {
+  local target_env="$1"
   info "Iniciando instalación de dotfiles en sistema: $MACHINE"
   
   install_dependencies
   update_submodules
-  symlink_dotfiles
+  symlink_dotfiles "$target_env"
   setup_vscodium
   
   echo ""
@@ -99,4 +118,4 @@ main() {
 }
 
 # Ejecutar el script
-main
+main "$1"
