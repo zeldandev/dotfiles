@@ -1,9 +1,9 @@
 /* Colors */
 * {
-    background:     #1F252B;
-    background-alt: #2a323a;
-    foreground:     #F0FBF8;
-    selected:       #B4A1DB;
-    active:         #74dd91;
-    urgent:         #db86ba;
+    background:     #232136;
+    background-alt: #393552;
+    foreground:     #e0def4;
+    selected:       #c4a7e7;
+    active:         #9ccfd8;
+    urgent:         #eb6f92;
 }
