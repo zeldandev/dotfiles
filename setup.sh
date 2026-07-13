@@ -32,17 +32,29 @@ esac
 # Dependencias Core
 # ==============================================================================
 
-check_dependencies() {
-  info "Comprobando dependencias esenciales..."
+install_dependencies() {
+  info "Comprobando gestor de paquetes (Homebrew)..."
   
-  local deps=("git" "stow")
-  for dep in "${deps[@]}"; do
-    if ! command -v "$dep" >/dev/null 2>&1; then
-      error "Dependencia '$dep' no está instalada. Por favor, instálala antes de continuar."
-      exit 1
+  if ! command -v brew >/dev/null 2>&1; then
+    warn "Homebrew no está instalado. Instalando automáticamente (puede pedir contraseña sudo)..."
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    
+    # Añadir brew al PATH temporalmente para que el script pueda continuar
+    if [[ "$MACHINE" == "Linux" ]] && [ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    elif [[ "$MACHINE" == "Mac" ]] && [ -x "/opt/homebrew/bin/brew" ]; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
-  done
-  success "Todas las dependencias core están instaladas."
+  fi
+  success "Homebrew detectado."
+
+  info "Instalando paquetes desde Brewfile..."
+  if [ -f "Brewfile" ]; then
+    brew bundle install --file=Brewfile
+    success "Paquetes instalados correctamente."
+  else
+    warn "No se encontró Brewfile."
+  fi
 }
 
 # ==============================================================================
@@ -77,7 +89,7 @@ setup_vscodium() {
 main() {
   info "Iniciando instalación de dotfiles en sistema: $MACHINE"
   
-  check_dependencies
+  install_dependencies
   update_submodules
   symlink_dotfiles
   setup_vscodium
