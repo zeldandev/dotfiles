@@ -1,0 +1,97 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+
+#: Fonts {{{
+font_family      Hack Nerd Font
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+font_size 16.0
+
+disable_ligatures never
+#: }}}
+
+#: Performance tuning {{{
+url_color #61afef
+url_style curly
+#: }}}
+
+#: Terminal bell {{{
+enable_audio_bell no
+bell_on_tab "🔔 "
+#: }}}
+
+#: Keyboard shortcuts {{{
+kitty_mod ctrl+shift
+
+map kitty_mod+left neighboring_window left
+map kitty_mod+right neighboring_window righ
+map kitty_mod+up neighboring_window up
+map kitty_mod+down neighboring_window down
+
+map kitty_mod+z toggle_layout stack
+
+map kitty_mod+enter new_window_with_cwd
+map kitty_mod+t new_tab_with_cwd
+
+map kitty_mod+tab previous_tab
+map kitty_mod+q close_tab
+map cmd+w       close_tab
+map shift+cmd+t     set_tab_title
+
+#: Next layout
+
+# map kitty_mod+l next_layout
+
+#: Clear up to cursor line
+
+# map cmd+k clear_terminal to_cursor active
+
+#: Reload kitty.conf
+
+# map kitty_mod+f5 load_config_file
+# map ctrl+cmd+,   load_config_file
+
+#: }}}
+
+#: Window {{{
+window_border_width 1
+window_margin_width 6
+window_padding_width 1
+#: }}}
+#: Layout management {{{
+
+#: }}}
+
+#: Tab bar {{{
+tab_bar_style powerline
+
+active_tab_font_style    bold-italic
+active_tab_background    #98c379
+inactive_tab_background  #e06c75
+inactive_tab_font_style  normal
+inactive_tab_foreground  #000000
+tab_bar_magin_color      black
+#: }}}
+
+#: Cursor customization {{{
+cursor_shape beam
+cursor_beam_thickness 1.0
+#: }}}
+
+#: Mouse {{{
+mouse_hide_wait 3.0
+#: }}}
+
+#: Advanced {{{
+detects_urls yes
+
+repaint_dealay 10
+imput_delay 3
+sync_to_monitor yes
+background_opacity 0.99
+
+#: }}}
+
+# BEGIN_KITTY_THEME
+include gruvboxDarkHard.conf
+# END_KITTY_THEME

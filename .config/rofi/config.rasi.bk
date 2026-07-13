@@ -1,0 +1,12 @@
+configuration {
+    modi: "run,drun,window,combi";
+    show-icons: true;
+    drun-display: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: " Apps";
+    display-combi: " 🖥️  All ";
+    display-window: " 🪟  Window";
+  }
+@theme "catppuccin-mocha"

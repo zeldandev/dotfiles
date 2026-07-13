@@ -1,0 +1,72 @@
+#!/bin/sh
+
+#cd
+alias dotfiles="cd $HOME/dotfiles"
+alias cd..="cd .."
+alias home="cd $HOME"
+
+#alias to vim configuration
+alias nvimrc="nvim $HOME/.config/nvim"
+alias ndot="nvim $HOME/dotfiles"
+
+#colorised output
+alias grep="grep --color=auto"
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
+
+#confirm before overwriting someting
+alias cp="cp -iv"
+alias mv="mv -iv"
+alias rm="rm -iv"
+
+#Progams
+
+# Use neovim for vim if present.
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+if [ -x "$(command -v lsd)" ]; then
+	alias ls="lsd -hA --group-dirs first" #normal listing with icons
+	alias ll="lsd -la --group-dirs first" #long format and all files
+	alias lt="lsd -t --tree 2 --group-dirs first"
+elif [ -x "$(command -v exa)" ]; then
+	# Changing "ls" to "exa"
+	alias ls='exa -a --color=always --group-directories-first'  # my preferred listing
+	alias ll='exa -la --color=always --group-directories-first' # long format
+	alias lt='exa -aT --color=always --group-directories-first' # tree listing
+fi
+
+# Use bat instead of cat if present.
+if [ -x "$(command -v bat)" ]; then
+	alias cat="bat"
+elif [ -x "$(command -v batcat)" ]; then
+	alias cat="batcat"
+	alias bat="batcat"
+fi
+
+#Especial cases for SO
+case "$(uname -s)" in
+
+Darwin)
+	# echo 'Mac OS X'
+	#alias ls='ls -G'
+	;;
+
+Linux)
+	#alias ls='ls --color=auto'
+	;;
+
+CYGWIN* | MINGW32* | MSYS* | MINGW*)
+	# echo 'MS Windows'
+	;;
+*)
+	# echo 'Other OS'
+	;;
+esac
+
+# Alias fd to fdfind on Debian/Ubuntu systems
+if [ -x "$(command -v fdfind)" ]; then
+	alias fd="fdfind"
+fi
+
+# Mostrar chuleta de atajos
+alias chuleta="cat ~/dotfiles/cheatsheet.md"

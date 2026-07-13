@@ -1,0 +1,46 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+__MACOSX/
+
+# cache vim
+*.swp
+.nvim*
+
+# cache emacs
+*~
+\#*\#
+.\#*
+
+# cache python
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+
+# cache node
+node_modules/
+
+# bash
+.bash_history
+.zsh_history
+
+#env
+.env
+.env.local
+
+password
+secret
+
+build/
+dist/
+.eggs/
+
+/log
+/tmp
+
+.config/VSCodium/**/*

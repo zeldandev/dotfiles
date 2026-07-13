@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# Utility function to add one route to path only if not exist
+add_to_path() {
+  if [[ ! $PATH =~ (^|:)$1(:|$) ]]; then
+    export PATH="$1:$PATH"
+  fi
+}
+
+# Use in both (zsh and bash) to add folders/files to path varible
+#############################################################
+#Especial cases for SO                                      #
+#############################################################
+case "$(uname -s)" in
+Darwin)
+  # echo 'Mac OS'
+ 
+  [ -d "$HOME/homebrew/bin" ] && add_to_path "$HOME/homebrew/bin"
+  [ -d "$HOME/homebrew/sbin" ] && add_to_path "$HOME/homebrew/sbin"
+  ;;
+
+Linux)
+  [ -d "$HOME/.local/appimage" ] && add_to_path "$HOME/.local/appimage"
+  [ -d "$HOME/Applications" ] && add_to_path "$HOME/Applications"
+  [ -d "/snap/bin/" ] && add_to_path "/snap/bin/"
+  [ -d "/home/linuxbrew/.linuxbrew/bin" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  ;;
+
+CYGWIN* | MINGW32* | MSYS* | MINGW*)
+  # echo 'MS Windows'
+  ;;
+
+*)
+  # echo 'Other OS'
+  ;;
+
+esac
+
+
+#########################################################################
+# COMMONS                                                               #
+#########################################################################
+
+[ -d "$HOME/.bin" ] && add_to_path "$HOME/.bin"
+[ -d "$HOME/.local/bin" ] && add_to_path "$HOME/.local/bin"
+
+[ -e "$HOME/.docker/init-zsh.sh" ] && source "$HOME/.docker/init-zsh.sh" || true # Added by docker desktop
+
+#asdf -- language version manager
+if command -v asdf >/dev/null 2>&1; then
+  ASDF_SCRIPT="$(brew --prefix asdf)/libexec/asdf.sh"
+  [ -f "$ASDF_SCRIPT" ] && . "$ASDF_SCRIPT"
+
+  #GOLANG
+  [ -d "$HOME/.asdf/plugins/golang" ] && source "$HOME/.asdf/plugins/golang/set-env.zsh"
+fi
+
+# Initialize Zoxide (smart directory jumper)
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi

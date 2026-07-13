@@ -1,0 +1,61 @@
+### Personal zsh config
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Shell and Zsh config directories
+export SHELL_DOT_DIR=$HOME/.config/shell
+export ZSH_DOT_DIR=$SHELL_DOT_DIR/zsh
+
+# 1. Load common environment variables
+[ -f "$SHELL_DOT_DIR/envrc" ] && source "$SHELL_DOT_DIR/envrc"
+
+# 2. Load path configuration (includes asdf, homebrew, etc.)
+[ -f "$SHELL_DOT_DIR/pathrc" ] && source "$SHELL_DOT_DIR/pathrc"
+
+# 3. Load aliases
+[ -f "$SHELL_DOT_DIR/aliasrc" ] && source "$SHELL_DOT_DIR/aliasrc"
+
+# 4. Zsh core options
+unsetopt BEEP                    # Beeping is annoying
+setopt auto_cd                   # Change directories without cd
+setopt autocd extendedglob nomatch
+setopt interactive_comments
+setopt hist_expire_dups_first    # Clear duplicates when trimming internal hist.
+setopt hist_find_no_dups         # Dont display duplicates during searches.
+setopt hist_ignore_space         # Ignore all commands starting with a blank space
+setopt share_history             # Share history between multiple shells
+setopt appendhistory             # Append history to the history file
+
+# 5. Load advanced completions configuration
+[ -f "$ZSH_DOT_DIR/completions.zsh" ] && source "$ZSH_DOT_DIR/completions.zsh"
+
+# 6. Load keybindings and FZF integration
+[ -f "$ZSH_DOT_DIR/keybindings.zsh" ] && source "$ZSH_DOT_DIR/keybindings.zsh"
+
+# 7. Load Zsh functions and plugins
+export ZSH_AUTOSUGGEST_USE_ASYNC=true
+[ -f "$ZSH_DOT_DIR/plugins.zsh" ] && source "$ZSH_DOT_DIR/plugins.zsh"
+
+# 8. Load Prompt (Starship if installed, otherwise fallback to clean prompt)
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+else
+  # Simple, elegant fallback prompt
+  PROMPT='%F{172}%n%f%F{magenta}@%f%F{green}%m%f%F{cyan}:%1~%f%F{magenta}$%f '
+fi
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/zeldan/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/zeldan/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/zeldan/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/zeldan/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

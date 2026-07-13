@@ -1,0 +1,198 @@
+"" Source your .vimrc
+"source ~/.vimrc
+
+" map - works recursively in normal, visual, select and operator pending modes
+" nmap - works recursively in normal mode.
+" noremap - works non-recursively in normal, visual, select and operator pending modes
+" nnoremap - works non-recursively in normal mode.
+
+"""--------------------------------  Map leader to space ---------------------
+let mapleader=" "
+
+"""-------------------------------- Common settings -------------------------
+
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+" highlights the search string while typing.
+set incsearch
+
+" shows both the line number and the relative line number in the gutter.
+" set number absolute/relativenumber
+set number
+
+" message on the status line to show current mode
+set showmode
+
+" show (partial) command in the status bar
+set showcmd
+
+" use visual bell instead of beeping
+set visualbell
+
+" By default (Idea)VIM will wait for timeoutlen milliseconds after each key press
+" of any unfinished mapping sequence before it cancels the whole sequence and processes
+" each key press individually one after another.
+" IdeaVIM does not differentiate between timeout|timeoutlen and ttimeout|ttimeoutlen
+" increase the timeoutlen (default: 1000)
+"set timeoutlen=3000
+" disable the timeout option
+""set notimeout
+
+"""-------------------------------- Plugins  --------------------------------
+" plugin ideajoin merge lines
+set ideajoin
+""" which keys plugin -------------------------------
+" IdeaVim extension that displays available keybindings in a popup similar to vim-which-key
+" Install the plugin via JetBrains MarketPlace
+" File -> Settings -> Plugins -> Marketplace search for "Which Key" and click on Install
+" to work properly you should either disable the timeout option or increase the value for timeoutlen
+set which-key
+
+""" multiple-cursors plugin -------------------------------
+" Emulates vim-multiple-cursors
+" Basic Commands:
+"   <C-n> start multicursor
+"   <C-n> next match
+"   <C-x> skip next match
+"   <C-p> remove current match and go back to previous one
+" See https://github.com/terryma/vim-multiple-cursors for details
+set multiple-cursors
+map mc <A-n>
+map mx <A-x>
+map mp <A-p>
+
+""" NERDTree plugin  --------------------------------
+" Emulates NERDTree
+" Basic Commands:
+"   Ctrl-n  Open NERDTree (mapped bellow)
+"   q	    Close the NERDTree window
+"   o   	Open files, directories and bookmarks
+"   go   	Open selected file, but leave cursor in the NERDTree
+"   i   	Open selected file in a split window
+"   gi   	Same as i, but leave the cursor on the NERDTree
+"   s   	Open selected file in a new vsplit
+"   gs   	Same as s, but leave the cursor on the NERDTree
+"   <C-J>	Jump down to next sibling of the current directory
+"   <C-K>	Jump up to previous sibling of the current directory
+"   R	    Recursively refresh the current root
+"   m	    Display the NERDTree menu
+" See  https://github.com/JetBrains/ideavim/wiki/NERDTree-support for details
+set NERDTree
+map <c-n> :NERDTreeToggle<CR>
+
+
+"idearefactormode - keep the mode that was enabled before starting a refactoring
+" set idearefactormode=keep
+
+"""-------------------------------- Shortcuts  --------------------------------
+" open idealvinrc
+nnoremap \e :e ~/.ideavimrc<CR>
+" reload config
+nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
+
+""" Windows/buffers ---------------------
+let g:WhichKeyDesc_split_right                     = "<leader>tr Split RIGHT"
+nmap <leader>sv :action SplitVertically<CR>
+nmap <leader>sh :action SplitHorizontally<CR>
+nmap <leader>wc :action Unsplit<CR>
+nmap <leader>wo :action MoveEditorToOppositeTabGroup<CR>
+
+nmap <leader>bk :action CloseEditor<CR>
+
+nmap <Tab> <action>(NextTab)
+nmap <S-Tab> <action>(PreviousTab)
+
+""" Actions
+nmap <leader>m <action>(Git.Menu)
+nmap <leader>s <action>(QuickChangeScheme)
+
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-h> <C-w>h
+nnoremap <C-k> <C-w>k
+
+""" Editing source code ------------------
+nmap <leader>/ :action CommentByLineComment<CR>
+nmap <Leader>l :action ReformatCode<CR>
+nmap <leader>o :action OptimizeImports<CR>
+
+nmap <Leader>gi :action GotoImplementation<CR>
+nmap <Leader>gd :action GotoDeclaration<CR>
+nmap <Leader>gp :action GotoSuperMethod<CR>
+nmap <Leader>gt :action GotoTest<CR>
+nmap <Leader>gb :action Back<CR>
+nmap <Leader>gf :action Forward<CR>
+
+:map <leader>cr <Action>(RenameElement)
+nnoremap <leader>cg :action Generate<CR>
+nmap <leader>ce <action>(ShowErrorDescription)
+
+
+"""search ----------------
+
+nnoremap <leader>fs :action FindInPath<CR>
+nnoremap <leader>fc :action GotoClass<CR>
+nnoremap <leader>fa :action GotoAction<CR>
+map <leader>fe <Action>(RecentChangedFiles)
+
+let g:WhichKeyDesc_files_search                        = "<leader>ff Search File"
+nnoremap <leader>ff :action GotoFile<CR>
+
+nnoremap <leader>fu :action FindUsages<CR>
+
+let g:WhichKeyDesc_files_recent_files                  = "<leader>fr Recent Files"
+map <leader>fr <Action>(RecentFiles)
+
+" move code"
+nnoremap <A-j> :m +1<CR>
+nnoremap <A-k> :m -2<CR>
+inoremap <A-j> <Esc>:m +1<CR>gi
+inoremap <A-k> <Esc>:m -2<CR>gi
+
+" easy system clipboard copy/paste ---------------------
+" registers: "+ and "* are for the system's clipboard
+" There are nine types of registers:
+" 1. The unnamed register ""
+" 2. 10 numbered registers "0 to "9
+" 3. The small delete register "-
+" 4. 26 named registers "a to "z or "A to "Z
+" 5. four read-only registers ":, "., "% and "#
+" 6. the expression register "=
+" 7. The selection and drop registers "*, "+ and "~
+" 8. The black hole register "_
+" 9. Last search pattern register "/
+"""----------------------------------------------------------------
+" Both set clipboard+=unnamed and set clipboard+=ideaput let you copy paste from the system and Intellij clipboards.
+"set clipboard+=unnamedplus
+"set clipboard+=unnamed
+"set clipboard+=ideaput
+vmap <leader>y "+y
+vmap <leader>d "+d
+nmap <leader>y "+yy
+
+nmap <leader>p "+p
+nmap <leader>P "+P
+vmap <leader>p "+p
+vmap <leader>P "+P
+
+""" Terminal ---------------------
+map <c-t> :action ActivateTerminalToolWindow<CR>
+
+" built in search looks better ---------------------
+"nnoremap / :action Find<cr>
+
+" but preserve ideavim search
+nnoremap g/ /
+" Fix tabulations
+vnoremap < <gv
+vnoremap > >gv
+
+" cursor in the middle when search
+nnoremap n nzzv
+nnoremap N Nzzv
+
+" comment
+nnoremap <c-/> :action CommentByLineComment<CR>
+vnoremap <c-/> :action CommentByBlockComment<CR>
