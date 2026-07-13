@@ -48,10 +48,15 @@ install_dependencies() {
   fi
   success "Homebrew detected."
 
-  info "Installing packages from Brewfile..."
+  info "Checking Brewfile dependencies..."
   if [ -f "Brewfile" ]; then
-    brew bundle install --file=Brewfile
-    success "Packages installed successfully."
+    if brew bundle check --file=Brewfile >/dev/null 2>&1; then
+      success "All Brewfile packages are already installed."
+    else
+      info "Installing missing packages from Brewfile..."
+      brew bundle install --file=Brewfile || warn "Some packages failed to install. Continuing script execution..."
+      success "Package installation step finished."
+    fi
   else
     warn "Brewfile not found."
   fi
