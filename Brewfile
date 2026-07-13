@@ -1,7 +1,3 @@
-# Repositorios Taps necesarios
-tap "homebrew/core"
-tap "homebrew/bundle"
-
 # Core Utilities (Las herramientas fundamentales para los dotfiles)
 brew "git"
 brew "stow"
