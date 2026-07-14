@@ -1,18 +1,13 @@
 ### Personal zsh config
-# If not running interactively, don't do anything
+
+# If not running interactively, do not initialize interactive settings.
+# (Although .zshrc is only read by interactive shells, this is a safe fallback).
 [[ $- != *i* ]] && return
 
-# Shell and Zsh config directories
-export SHELL_DOT_DIR=$HOME/.config/shell
-export ZSH_DOT_DIR=$SHELL_DOT_DIR/zsh
-
-# 1. Load common environment variables
-[ -f "$SHELL_DOT_DIR/envrc" ] && source "$SHELL_DOT_DIR/envrc"
-
-# 2. Load path configuration (includes asdf, homebrew, etc.)
+# 1. Load PATH configuration (includes user bin folders, mise, etc.)
 [ -f "$SHELL_DOT_DIR/pathrc" ] && source "$SHELL_DOT_DIR/pathrc"
 
-# 3. Load aliases
+# 2. Load command aliases
 [ -f "$SHELL_DOT_DIR/aliasrc" ] && source "$SHELL_DOT_DIR/aliasrc"
 
 # 4. Zsh core options

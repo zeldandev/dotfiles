@@ -1,13 +1,12 @@
-
 # ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
+# XDG Base Directory Specification
+# These define standard locations for user-specific configuration, cache, and data files,
+# keeping the root $HOME directory clean and structured.
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
@@ -26,6 +25,9 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+# Explicitly export PATH to guarantee child processes inherit the updated value
+export PATH
 
 # Ensure base distro defaults xdg path are set if nothing filed up some
 # defaults yet.
