@@ -9,7 +9,10 @@ autoload -Uz compinit
 _comp_options+=(globdots) # Include hidden files in autocompletion
 
 # Cache compinit: compile zcompdump once a day
-if [ -n "$(find "$HOME/.zcompdump" -mtime +1 2>/dev/null)" ] || [ ! -f "$HOME/.zcompdump" ]; then
+# (N.mh+24) uses Zsh glob qualifiers: N (null_glob), mh+24 (modified more than 24 hours ago)
+# We store the match in an array to avoid spawning a 'find' subprocess.
+local -a old_dump=( $HOME/.zcompdump(N.mh+24) )
+if [[ ! -f "$HOME/.zcompdump" ]] || (( $#old_dump > 0 )); then
   compinit
 else
   compinit -C
