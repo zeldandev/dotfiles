@@ -7,7 +7,11 @@
 # 1. Load PATH configuration (includes user bin folders, mise, etc.)
 [ -f "$SHELL_DOT_DIR/pathrc" ] && source "$SHELL_DOT_DIR/pathrc"
 
-# 2. Load command aliases
+# 2. Load interactive environment variables (EDITOR, VISUAL, history, etc.)
+# Loaded after pathrc so that commands like 'nvim' are already in the PATH.
+[ -f "$SHELL_DOT_DIR/envrc" ] && source "$SHELL_DOT_DIR/envrc"
+
+# 3. Load command aliases
 [ -f "$SHELL_DOT_DIR/aliasrc" ] && source "$SHELL_DOT_DIR/aliasrc"
 
 # 4. Zsh core options

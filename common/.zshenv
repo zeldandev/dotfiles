@@ -18,10 +18,3 @@
 # For now, we define SHELL_DOT_DIR and ZSH_DOT_DIR to align with your setup.
 export SHELL_DOT_DIR=$HOME/.config/shell
 export ZSH_DOT_DIR=$SHELL_DOT_DIR/zsh
-
-# Load common environment variables (EDITOR, VISUAL, PAGER, HISTSIZE, etc.).
-# Sourcing 'envrc' here makes these variables globally available to any script
-# or application launched under Zsh, even if it is not an interactive shell.
-if [ -f "$SHELL_DOT_DIR/envrc" ]; then
-  source "$SHELL_DOT_DIR/envrc"
-fi
