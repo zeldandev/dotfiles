@@ -54,3 +54,9 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# Load machine-specific interactive configurations from an untracked local file if it exists.
+# This is ideal for local aliases, functions, or custom interactive shell logic.
+if [ -f "$HOME/.zshrc.local" ]; then
+  source "$HOME/.zshrc.local"
+fi
+

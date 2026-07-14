@@ -51,6 +51,20 @@ Make sure you have `git` and `stow` installed on your system.
 3. **Install OS-specific apps:**
    Check the `misc/` folder for additional scripts to install missing packages on Debian-based systems or macOS.
 
+## 🔧 Local Customization (Machine-Specific Settings)
+
+These dotfiles support loading local, untracked configuration files per-machine. This allows you to define custom paths, API keys, aliases, or environment variables unique to a specific computer without modifying the Git repository.
+
+To add machine-specific settings, simply create one or more of the following files in your `$HOME` directory:
+
+| Local File | Purpose | Loaded By |
+| --- | --- | --- |
+| `~/.profile.local` | Custom user environment variables & generic system-wide settings | `~/.profile` (System Login) |
+| `~/.zprofile.local` | Custom shell login initializations (e.g. machine-specific paths) | `~/.zprofile` (Zsh Login) |
+| `~/.zshrc.local` | Custom interactive terminal configs, local aliases, or functions | `~/.zshrc` (Interactive Zsh) |
+
+> 💡 **Note:** All `*.local` files are ignored by Git (configured in `.gitignore`), ensuring your personal API keys and local paths are never accidentally pushed to public repositories.
+
 ## ⌨️ Unified Keybindings
 
 A major goal of these dotfiles is to maintain **keyboard consistency** across Neovim, IntelliJ (`IdeaVim`), Tmux, and the OS.

@@ -34,3 +34,8 @@ elif [[ "$(uname -s)" == "Linux" ]]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   fi
 fi
+
+# Load machine-specific login configurations from an untracked local file if it exists.
+if [ -f "$HOME/.zprofile.local" ]; then
+  source "$HOME/.zprofile.local"
+fi

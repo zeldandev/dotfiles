@@ -44,3 +44,6 @@ dist/
 /tmp
 
 .config/VSCodium/**/*
+
+# Local machine-specific configuration overrides (untracked)
+*.local

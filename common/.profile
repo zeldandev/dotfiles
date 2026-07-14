@@ -42,3 +42,9 @@ snap_xdg_path="/var/lib/snapd/desktop"
 if [ -n "${XDG_DATA_DIRS##*${snap_xdg_path}}" ] && [ -n "${XDG_DATA_DIRS##*${snap_xdg_path}:*}" ]; then
   export XDG_DATA_DIRS="${XDG_DATA_DIRS}:${snap_xdg_path}"
 fi
+
+# Load machine-specific configurations from an untracked local file if it exists.
+# This allows setting local PATH additions or environment variables per-machine.
+if [ -f "$HOME/.profile.local" ]; then
+  . "$HOME/.profile.local"
+fi
