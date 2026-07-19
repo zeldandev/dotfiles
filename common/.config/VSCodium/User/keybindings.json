@@ -68,16 +68,32 @@
         "command": "workbench.action.focusFirstEditorGroup",
         "when": "terminalFocus"
     },
-    // Coding
+    // Splits (Identical to Neovim / IdeaVim)
     {
-        "key": "shift-j",
-        "command": "editor.action.moveLinesDownAction",
-        "when": "vim.mode == 'VisualLine' && editorTextFocus"
+        "key": "space s v",
+        "command": "workbench.action.splitEditorRight",
+        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
     {
-        "key": "shift-k",
+        "key": "space s h",
+        "command": "workbench.action.splitEditorDown",
+        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
+    },
+    {
+        "key": "space w c",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
+    },
+    // Coding & Line Moving (Identical to Neovim / IdeaVim: Alt+j / Alt+k)
+    {
+        "key": "alt+j",
+        "command": "editor.action.moveLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+k",
         "command": "editor.action.moveLinesUpAction",
-        "when": "vim.mode == 'VisualLine' && editorTextFocus"
+        "when": "editorTextFocus && !editorReadonly"
     },
     {
         "key": "shift-k",
@@ -100,10 +116,16 @@
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
     {
+        "key": "space b k",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "vim.mode == 'Normal' && editorTextFocus"
+    },
+    {
         "key": "space b d",
         "command": "workbench.action.closeActiveEditor",
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
+
     {
         "key": "shift shift",
         "command": "workbench.action.quickOpen",
