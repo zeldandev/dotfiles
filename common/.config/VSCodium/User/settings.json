@@ -1,15 +1,15 @@
 {
-  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.colorTheme": "Rosé Pine Moon",
   "workbench.iconTheme": "vscode-icons",
-  //Font
-  "editor.fontFamily": "FiraCode Nerd Font",
-  "terminal.integrated.fontFamily": "UbuntuMono Nerd Font, monospace",
+  // Font
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
+  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font', monospace",
   "editor.fontWeight": "normal",
   "window.zoomLevel": 1,
   "editor.fontSize": 14,
   "terminal.integrated.fontSize": 14,
   "editor.fontLigatures": true,
-  //ui
+  // UI
   "editor.minimap.enabled": false,
   "window.commandCenter": false,
   "editor.scrollbar.horizontal": "auto",
@@ -17,33 +17,26 @@
   "workbench.sideBar.location": "right",
   "workbench.activityBar.location": "bottom",
   "breadcrumbs.enabled": false,
-  //startup page disable - keep blank window
+  // Startup page disable - keep blank window
   "workbench.startupEditor": "none",
-  //files
+  // Files
   "files.autoSave": "onFocusChange",
   // Telemetry
-  // -all: Sends usage data, errors, and crash reports.
-  // -error: Sends general error telemetry and crash reports.
-  // -crash: Sends OS leve crash reports.
-  // -off: Disables all product telemetry
   "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
-  //Code
+  // Code
   "editor.linkedEditing": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": true,
-  //Controls whether words are overwritten when accepting completions. Note that this depends on extension opting into this feature
-  // -insert: Insert suggestion without overwriting text right of the cursor
-  // -replace: Insert suggestion and overwrite text right of the cursor
   "editor.suggest.insertMode": "replace",
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always",
-    "source.removeUnusedImports": "always",
+    "source.removeUnusedImports": "always"
   },
-  //misc
+  // Misc
   "workbench.settings.editor": "json",
   "extension.ignoreRecomendations": true,
-  //vim
+  // Vim integration
   "vim.enableNeovim": true,
   "vim.leader": "<space>",
   "vim.hlsearch": true,
@@ -56,39 +49,39 @@
   },
   "vim.statusBarColorControl": true,
   "vim.statusBarColors.normal": [
-    "#8FBCBB",
-    "#000"
+    "#c4a7e7",
+    "#232136"
   ],
   "vim.statusBarColors.insert": [
-    "#BF616A",
-    "#000"
+    "#eb6f92",
+    "#232136"
   ],
   "vim.statusBarColors.visual": [
-    "#B48EAD",
-    "#000"
+    "#f6c177",
+    "#232136"
   ],
   "vim.statusBarColors.visualline": [
-    "#B48EAD",
-    "#000"
+    "#f6c177",
+    "#232136"
   ],
   "vim.statusBarColors.visualblock": [
-    "#A3BE8C",
-    "#000"
+    "#a6e3a1",
+    "#232136"
   ],
-  "vim.statusBarColors.replace": "#D08770",
-  "vim.statusBarColors.commandlineinprogress": "#007ACC",
-  "vim.statusBarColors.searchinprogressmode": "#007ACC",
-  "vim.statusBarColors.easymotionmode": "#007ACC",
-  "vim.statusBarColors.easymotioninputmode": "#007ACC",
-  "vim.statusBarColors.surroundinputmode": "#007ACC",
+  "vim.statusBarColors.replace": "#ea9a97",
+  "vim.statusBarColors.commandlineinprogress": "#c4a7e7",
+  "vim.statusBarColors.searchinprogressmode": "#c4a7e7",
+  "vim.statusBarColors.easymotionmode": "#c4a7e7",
+  "vim.statusBarColors.easymotioninputmode": "#c4a7e7",
+  "vim.statusBarColors.surroundinputmode": "#c4a7e7",
   "workbench.colorCustomizations": {
-    "statusBar.background": "#8FBCBB",
-    "statusBar.noFolderBackground": "#8FBCBB",
-    "statusBar.debuggingBackground": "#8FBCBB",
-    "statusBar.foreground": "#000",
-    "statusBar.debuggingForeground": "#000"
+    "statusBar.background": "#232136",
+    "statusBar.noFolderBackground": "#232136",
+    "statusBar.debuggingBackground": "#232136",
+    "statusBar.foreground": "#e0def4",
+    "statusBar.debuggingForeground": "#e0def4"
   },
-  //Terminal
+  // Terminal
   "terminal.integrated.profiles.osx": {
     "zsh": {
       "path": "zsh",
@@ -98,10 +91,9 @@
     },
     "tmux": {
       "path": "tmux",
-      "args":["new-session", "-A", "-s", "vscode:${workspaceFolder}"]
-    },
+      "args": ["new-session", "-A", "-s", "vscode:${workspaceFolder}"]
+    }
   },
   "terminal.integrated.defaultProfile.osx": "tmux",
-  "terminal.integrated.inheritEnv": false,
-
+  "terminal.integrated.inheritEnv": false
 }

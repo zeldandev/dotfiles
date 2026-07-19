@@ -242,12 +242,49 @@ symlink_dotfiles() {
 }
 
 setup_vscodium() {
-  if [ -x "./.config/VSCodium/User/install.sh" ]; then
-    info "Configuring VSCodium..."
-    ./.config/VSCodium/User/install.sh
-    success "VSCodium configured."
+  local source_dir="$HOME/dotfiles/common/.config/VSCodium/User"
+  if [ ! -d "$source_dir" ]; then
+    return
+  fi
+
+  info "Configuring VS Code / VSCodium..."
+
+  local target_dirs=()
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    target_dirs+=(
+      "$HOME/Library/Application Support/Code/User"
+      "$HOME/Library/Application Support/VSCodium/User"
+    )
+  else
+    target_dirs+=(
+      "$HOME/.config/Code/User"
+      "$HOME/.config/VSCodium/User"
+    )
+  fi
+
+  for target in "${target_dirs[@]}"; do
+    mkdir -p "$target"
+    ln -sf "$source_dir/settings.json" "$target/settings.json"
+    ln -sf "$source_dir/keybindings.json" "$target/keybindings.json"
+  done
+
+  local cli_cmd=""
+  if command -v codium >/dev/null 2>&1; then
+    cli_cmd="codium"
+  elif command -v code >/dev/null 2>&1; then
+    cli_cmd="code"
+  fi
+
+  if [ -n "$cli_cmd" ] && [ -f "$source_dir/extensions.txt" ]; then
+    info "Installing VS Code / VSCodium extensions via $cli_cmd..."
+    while IFS= read -r ext || [ -n "$ext" ]; do
+      [[ -z "$ext" || "$ext" =~ ^# ]] && continue
+      $cli_cmd --install-extension "$ext" --force >/dev/null 2>&1 || true
+    done < "$source_dir/extensions.txt"
+    success "VS Code / VSCodium extensions installed."
   fi
 }
+
 
 setup_tpm() {
   local tpm_dir="$HOME/.config/tmux/plugins/tpm"

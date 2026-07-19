@@ -1,3 +1,4 @@
+mvndrew.rose-pine
 christian-kohler.path-intellisense
 editorconfig.editorconfig
 golang.go
@@ -21,4 +22,3 @@ streetsidesoftware.code-spell-checker
 vscode-icons-team.vscode-icons
 vscodevim.vim
 yzhang.markdown-all-in-one
-
