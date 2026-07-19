@@ -18,3 +18,27 @@ fi
 # Pager configuration
 export PAGER="less"
 export LESS="-R"
+
+# FZF Configuration (Optimized search with fd & rich previews with bat / eza)
+if command -v fd >/dev/null 2>&1 || command -v fdfind >/dev/null 2>&1; then
+  FD_CMD="fd"
+  command -v fdfind >/dev/null 2>&1 && FD_CMD="fdfind"
+  export FZF_DEFAULT_COMMAND="$FD_CMD --type f --hidden --strip-cwd-prefix --exclude .git"
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="$FD_CMD --type d --hidden --strip-cwd-prefix --exclude .git"
+fi
+
+export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --border --color=header:italic"
+
+if command -v bat >/dev/null 2>&1 || command -v batcat >/dev/null 2>&1; then
+  BAT_CMD="bat"
+  command -v batcat >/dev/null 2>&1 && BAT_CMD="batcat"
+  export FZF_CTRL_T_OPTS="--preview '$BAT_CMD --style=numbers --color=always --line-range :100 {}'"
+fi
+
+if command -v eza >/dev/null 2>&1; then
+  export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -50'"
+elif command -v lsd >/dev/null 2>&1; then
+  export FZF_ALT_C_OPTS="--preview 'lsd --tree --color=always {} | head -50'"
+fi
+

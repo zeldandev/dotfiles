@@ -1,0 +1,4 @@
+# Brewfile.cask - Casks y Aplicaciones GUI Opcionales
+
+# Fuentes Nerd Font (Requeridas por Kitty terminal y Starship)
+cask "font-jetbrains-mono-nerd-font"

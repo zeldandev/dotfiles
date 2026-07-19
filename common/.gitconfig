@@ -4,7 +4,15 @@
 	email = 26639314+zeldandev@users.noreply.github.com
 	name = zeldandev
 [includeIf "gitdir:~/work/"]
-  path = ~/work/.gitcofig.work
+  path = ~/work/.gitconfig.work
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[rerere]
+	enabled = true
 [core]
 	autocrlf = input
 
@@ -22,3 +30,4 @@
 	light = false
 	side-by-side = true
 	line-numbers = true
+

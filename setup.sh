@@ -36,6 +36,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # ==============================================================================
 
 install_dependencies() {
+  local install_casks="$1"
   info "Checking package manager (Homebrew)..."
   
   if ! command -v brew >/dev/null 2>&1; then
@@ -54,14 +55,20 @@ install_dependencies() {
   info "Checking Brewfile dependencies..."
   if [ -f "Brewfile" ]; then
     if brew bundle check --file=Brewfile >/dev/null 2>&1; then
-      success "All Brewfile packages are already installed."
+      success "All core Brewfile packages are already installed."
     else
-      info "Installing missing packages from Brewfile..."
+      info "Installing missing core packages from Brewfile..."
       brew bundle install --file=Brewfile || warn "Some packages failed to install. Continuing script execution..."
       success "Package installation step finished."
     fi
   else
     warn "Brewfile not found."
+  fi
+
+  if [ "$install_casks" == "true" ] && [ -f "Brewfile.cask" ]; then
+    info "Installing optional Cask packages from Brewfile.cask..."
+    brew bundle install --file=Brewfile.cask || warn "Some Cask packages failed to install. Continuing script execution..."
+    success "Cask package installation step finished."
   fi
 }
 
@@ -242,23 +249,54 @@ setup_vscodium() {
   fi
 }
 
+setup_tpm() {
+  local tpm_dir="$HOME/.config/tmux/plugins/tpm"
+  if [ ! -d "$tpm_dir" ]; then
+    info "Installing Tmux Plugin Manager (TPM)..."
+    mkdir -p "$HOME/.config/tmux/plugins"
+    git clone https://github.com/tmux-plugins/tpm "$tpm_dir"
+    success "TPM installed."
+  fi
+}
+
 # ==============================================================================
 # Main Execution
 # ==============================================================================
 
 main() {
-  local target_env
+  local target_env install_casks="false"
   target_env="$(select_environment "$1")"
-  info "Starting dotfiles installation on system: $MACHINE (Target: $target_env)"
   
-  install_dependencies
+  # Check if --casks flag is provided in any argument
+  for arg in "$@"; do
+    case "$arg" in
+      --casks|-c|--cask) install_casks="true" ;;
+    esac
+  done
+
+  # In interactive mode, if flag was not explicitly given, prompt the user
+  if [ "$install_casks" == "false" ] && [ -t 0 ]; then
+    echo -e "${BLUE}[INFO]${NC} Do you want to install optional Cask packages (fonts/GUI apps)? [y/N]: " >&2
+    local choice_cask
+    read -rp "Select option [y/N, default N]: " choice_cask
+    case "$choice_cask" in
+      [yY]|[yY][eE][sS]) install_casks="true" ;;
+      *) install_casks="false" ;;
+    esac
+  fi
+
+  info "Starting dotfiles installation on system: $MACHINE (Target: $target_env | Casks: $install_casks)"
+  
+  install_dependencies "$install_casks"
   update_submodules
   symlink_dotfiles "$target_env"
   setup_vscodium
+  setup_tpm
   
   echo ""
   success "Installation completed successfully!"
 }
 
 # Execute the script
-main "$1"
+main "$@"
+

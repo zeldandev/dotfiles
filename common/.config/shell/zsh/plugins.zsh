@@ -47,6 +47,8 @@ function zsh_update_plugins() {
 }
 
 # --- plugins
-zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
+# Note: fast-syntax-highlighting MUST be loaded last so it wraps all registered ZLE widgets
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-completions"
+zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
+

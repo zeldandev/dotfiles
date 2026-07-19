@@ -28,12 +28,13 @@ setopt appendhistory             # Append history to the history file
 # 5. Load advanced completions configuration
 [ -f "$ZSH_DOT_DIR/completions.zsh" ] && source "$ZSH_DOT_DIR/completions.zsh"
 
-# 6. Load keybindings and FZF integration
-[ -f "$ZSH_DOT_DIR/keybindings.zsh" ] && source "$ZSH_DOT_DIR/keybindings.zsh"
-
-# 7. Load Zsh functions and plugins
+# 6. Load Zsh functions and plugins (must be loaded before keybindings so ZLE widgets are defined)
 export ZSH_AUTOSUGGEST_USE_ASYNC=true
 [ -f "$ZSH_DOT_DIR/plugins.zsh" ] && source "$ZSH_DOT_DIR/plugins.zsh"
+
+# 7. Load keybindings and FZF integration
+[ -f "$ZSH_DOT_DIR/keybindings.zsh" ] && source "$ZSH_DOT_DIR/keybindings.zsh"
+
 
 # 8. Load Prompt (Starship if installed, otherwise fallback to clean prompt)
 if command -v starship >/dev/null 2>&1; then

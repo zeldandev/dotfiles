@@ -19,12 +19,16 @@ alias cp="cp -iv"
 alias mv="mv -iv"
 alias rm="rm -iv"
 
-#Progams
+# Progams
 
 # Use neovim for vim if present.
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
 
-if [ -x "$(command -v lsd)" ]; then
+if [ -x "$(command -v eza)" ]; then
+	alias ls="eza -a --icons --group-directories-first"
+	alias ll="eza -la --icons --group-directories-first"
+	alias lt="eza -aT --icons --level=2 --group-directories-first"
+elif [ -x "$(command -v lsd)" ]; then
 	alias ls="lsd -hA --group-dirs first" #normal listing with icons
 	alias ll="lsd -la --group-dirs first" #long format and all files
 	alias lt="lsd -t --tree 2 --group-dirs first"
@@ -34,6 +38,10 @@ elif [ -x "$(command -v exa)" ]; then
 	alias ll='exa -la --color=always --group-directories-first' # long format
 	alias lt='exa -aT --color=always --group-directories-first' # tree listing
 fi
+
+# Lazygit alias
+[ -x "$(command -v lazygit)" ] && alias lg="lazygit"
+
 
 # Use bat instead of cat if present.
 if [ -x "$(command -v bat)" ]; then
@@ -69,4 +77,9 @@ if [ -x "$(command -v fdfind)" ]; then
 fi
 
 # Mostrar chuleta de atajos
-alias chuleta="cat ~/dotfiles/cheatsheet.md"
+if [ -x "$(command -v bat)" ]; then
+	alias chuleta="bat ~/dotfiles/cheatsheet.md"
+else
+	alias chuleta="cat ~/dotfiles/cheatsheet.md"
+fi
+
