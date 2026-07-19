@@ -16,10 +16,11 @@ Welcome to my personal dotfiles. This repository contains the configuration file
 
 - **💻 Window Managers:** `i3wm` with `Rofi` and `Polybar`.
 - **📟 Terminal:** `Kitty` & `iTerm2`.
-- **🐚 Shell (Zsh):** Highly customized with Vi-mode, `Starship` prompt, `zoxide` (smart cd), and `fzf` integration.
+- **🐚 Shell (Zsh):** Highly customized with Vi-mode (dynamic cursor indicator), `Starship` prompt, `zoxide` (smart cd), and `fzf` (with `bat` file previews and `eza` tree previews).
 - **📝 Editor (Neovim):** Lua-based setup with native LSP, Telescope, and unified bindings.
-- **🪟 Multiplexer (Tmux):** Configured with TPM, `tmux-resurrect`, and a beautiful Rosé Pine Moon theme.
+- **🪟 Multiplexer (Tmux):** Configured with TPM, `tmux-resurrect`, Wayland `wl-copy` support, floating cheatsheet popup, and Rosé Pine Moon theme.
 - **🔗 Seamless Navigation:** Move between Neovim splits and Tmux panes flawlessly using `Ctrl + h/j/k/l` (`vim-tmux-navigator`).
+- **🎨 Enhanced CLI Tools:** `git-delta` (side-by-side diffs), `eza` (modern tree listings with icons), and `bat` (syntax-highlighted paging).
 
 ## ⚙️ Installation
 
@@ -45,11 +46,14 @@ Make sure you have `git` and `stow` installed on your system.
 
    # macOS (Automatically detected, installs Common + macOS specifics)
    ./setup.sh
-   ```
-   > **Note:** The script is intelligent. It will install Homebrew, initialize Git submodules (Zsh plugins, TPM), configure VSCodium, and symlink all files securely using `stow --restow <module>`.
 
-3. **Install OS-specific apps:**
-   Check the `misc/` folder for additional scripts to install missing packages on Debian-based systems or macOS.
+   # Optional: Include GUI Casks and Nerd Fonts (JetBrainsMono Nerd Font)
+   ./setup.sh --casks
+   ```
+   > **Note:** The script is intelligent. It will install Homebrew packages from `Brewfile` (and optionally `Brewfile.cask`), initialize Git submodules (Zsh plugins, TPM), configure VSCodium, and symlink all files securely using `stow`.
+
+3. **Install OS-specific apps & docs:**
+   Check the `misc/` folder for additional scripts and documentation (`git.md`, `ssh.md`, `nvim.md`).
 
 ## 🔧 Local Customization (Machine-Specific Settings)
 
@@ -75,7 +79,7 @@ To quickly view the complete shortcut list while working:
 - **In Zsh:** Type `chuleta`
 - **In i3 (Global):** Press `Super + c`
 
-You can manually read the cheatsheet in [`cheatsheet.md`](cheatsheet.md).
+You can manually read the complete cheatsheet in [`cheatsheet.md`](cheatsheet.md).
 
 ## 📂 Repository Structure (Modular)
 
@@ -85,8 +89,11 @@ This repository uses **Stow Packages** to keep configs modular and clean across 
 - **`wayland-dms/`**: Wayland environment configs (DankMaterialShell).
 - **`x11-i3/`**: X11 environment configs (i3, Polybar, Rofi, Picom) for VMs.
 - **`macos/`**: macOS specific GUI apps (iTerm2).
-- **`misc/`**: Helper scripts for OS-specific package installations.
+- **`misc/`**: Helper scripts and documentation (`git.md`, `ssh.md`, `nvim.md`).
+- **`Brewfile`**: Core CLI Homebrew formulas (git, stow, tmux, neovim, fzf, zoxide, ripgrep, fd, bat, eza, git-delta, lazygit).
+- **`Brewfile.cask`**: Optional GUI Homebrew casks & fonts (`font-jetbrains-mono-nerd-font`).
 - **`setup.sh`**: The core idempotent bootstrap script.
 
 ---
 *Managed with ❤️ and GNU Stow.*
+
