@@ -32,9 +32,34 @@ bindkey -M menuselect '^k' up-line-or-history
 bindkey -M menuselect '^l' forward-char
 
 
-# Initialize FZF shell integration (requires fzf version 0.48+)
+# Initialize FZF shell integration (compatible with fzf >= 0.48 and older versions)
 if command -v fzf >/dev/null 2>&1; then
-  eval "$(fzf --zsh)"
+  if fzf --zsh >/dev/null 2>&1; then
+    eval "$(fzf --zsh)"
+  else
+    # Fallback for fzf < 0.48 (e.g. Debian, Ubuntu, WSL native apt package)
+    for key_binding in \
+      "/usr/share/doc/fzf/examples/key-bindings.zsh" \
+      "/usr/share/fzf/key-bindings.zsh" \
+      "/usr/share/fzf/shell/key-bindings.zsh" \
+      "$HOME/.fzf/shell/key-bindings.zsh"; do
+      if [ -f "$key_binding" ]; then
+        source "$key_binding"
+        break
+      fi
+    done
+
+    for completion in \
+      "/usr/share/doc/fzf/examples/completion.zsh" \
+      "/usr/share/fzf/completion.zsh" \
+      "/usr/share/fzf/shell/completion.zsh" \
+      "$HOME/.fzf/shell/completion.zsh"; do
+      if [ -f "$completion" ]; then
+        source "$completion"
+        break
+      fi
+    done
+  fi
 fi
 
 # Toggle 'sudo' prefix on current command line with Alt+S (or Esc then S)

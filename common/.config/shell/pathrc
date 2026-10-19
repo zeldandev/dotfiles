@@ -51,6 +51,7 @@ esac
 
 [ -d "$HOME/.bin" ] && add_to_path "$HOME/.bin"
 [ -d "$HOME/.local/bin" ] && add_to_path "$HOME/.local/bin"
+[ -d "$HOME/.local/share/mise/shims" ] && add_to_path "$HOME/.local/share/mise/shims"
 
 [ -e "$HOME/.docker/init-zsh.sh" ] && source "$HOME/.docker/init-zsh.sh" || true # Added by docker desktop
 

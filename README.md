@@ -1,99 +1,238 @@
 # 🚀 Zeldan's Dotfiles
 
-> A unified, high-performance, and keyboard-centric development environment for Linux and macOS.
+> A unified, keyboard-centric development environment for Linux and macOS —
+> built for speed, modularity, and cross-platform consistency.
 
 ![Linux](https://img.shields.io/badge/OS-Linux-blue?style=flat-square&logo=linux)
 ![macOS](https://img.shields.io/badge/OS-macOS-black?style=flat-square&logo=apple)
-![Neovim](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
-![Tmux](https://img.shields.io/badge/Multiplexer-Tmux-1E1E1E?style=flat-square&logo=tmux)
-![Zsh](https://img.shields.io/badge/Shell-Zsh-orange?style=flat-square&logo=gnu-bash)
-
-Welcome to my personal dotfiles. This repository contains the configuration files for my daily drivers, heavily optimized for productivity, modularity, and cross-platform consistency. The entire ecosystem is tightly integrated to provide an **IntelliJ-like** fluid experience directly from the terminal.
+![Neovim](https://img.shields.io/badge/Editor-Neovim-57A143?style=flat-square&logo=neovim&logoColor=white)
+![Tmux](https://img.shields.io/badge/Multiplexer-Tmux-1BB91F?style=flat-square&logo=tmux&logoColor=white)
+![Zsh](https://img.shields.io/badge/Shell-Zsh-F15A24?style=flat-square&logo=gnu-bash&logoColor=white)
+![Stow](https://img.shields.io/badge/Managed%20by-GNU%20Stow-4E9A06?style=flat-square)
 
 ---
 
-## 🌟 Key Features & Tools
+## ✨ What's Inside
 
-- **💻 Window Managers:** `i3wm` with `Rofi` and `Polybar`.
-- **📟 Terminal:** `Kitty` & `iTerm2`.
-- **🐚 Shell (Zsh):** Highly customized with Vi-mode (dynamic cursor indicator), `Starship` prompt, `zoxide` (smart cd), and `fzf` (with `bat` file previews and `eza` tree previews).
-- **📝 Editor (Neovim):** Lua-based setup with native LSP, Telescope, and unified bindings.
-- **🪟 Multiplexer (Tmux):** Configured with TPM, `tmux-resurrect`, Wayland `wl-copy` support, floating cheatsheet popup, and Rosé Pine Moon theme.
-- **🔗 Seamless Navigation:** Move between Neovim splits and Tmux panes flawlessly using `Ctrl + h/j/k/l` (`vim-tmux-navigator`).
-- **🎨 Enhanced CLI Tools:** `git-delta` (side-by-side diffs), `eza` (modern tree listings with icons), and `bat` (syntax-highlighted paging).
+The whole environment is tightly integrated: Neovim, Tmux, Zsh and the window
+manager all share the same keybinding philosophy. Moving between a Neovim split
+and a Tmux pane is the same gesture (`Ctrl+h/j/k/l`). The prompt, file previews,
+fuzzy finders, and git interfaces are wired together out of the box.
+
+| Layer | Tool | Role |
+| :--- | :--- | :--- |
+| **Shell** | Zsh + [Starship](https://starship.rs) | Fast, minimal prompt with Vi-mode and dynamic cursor |
+| **Multiplexer** | Tmux + TPM | Persistent sessions, window/pane management, Rosé Pine theme |
+| **Editor** | Neovim (Lua) | LSP, Tree-sitter, Telescope, lazy.nvim — see [nvim/README](common/.config/nvim/README.md) |
+| **Terminal** | Kitty / iTerm2 | GPU-accelerated, Nerd Font support, Rosé Pine Moon theme |
+| **File Navigation** | `zoxide` + `fzf` + `eza` | Smart `cd`, fuzzy search, tree listings with icons |
+| **Git** | `lazygit` + `git-delta` | Terminal UI for git + beautiful side-by-side diffs |
+| **Window Manager (X11)** | i3 + Polybar + Rofi | Keyboard-driven tiling WM for VM / X11 setups |
+| **Window Manager (Wayland)** | DankMaterialShell | Wayland compositor shell for the main desktop |
+| **IDE integration** | IdeaVim (`.ideavimrc`) | IntelliJ/JetBrains with Neovim-compatible bindings |
+| **VS Code / VSCodium** | Settings + keybindings | Shared config auto-linked by the setup script |
+
+---
 
 ## ⚙️ Installation
 
-The installation process is fully automated, idempotent, and powered by **GNU Stow** to safely symlink files to your home directory.
+The [`setup.sh`](setup.sh) script is **idempotent** — safe to re-run at any time.
+It auto-detects your OS and environment, installs dependencies, and symlinks
+everything with **GNU Stow** (with a native fallback if Stow is not available).
 
-### Prerequisites
-Make sure you have `git` and `stow` installed on your system.
+### 1 — Clone
 
-### Setup
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/zeldandev/dotfiles.git ~/dotfiles
-   cd ~/dotfiles
-   ```
-2. **Run the bootstrap script:**
-   Depending on your operating system and desired environment, run one of the following commands:
-   ```bash
-   # Main Linux machine (Installs Common + DankMaterialShell)
-   ./setup.sh --dms
+```bash
+git clone https://github.com/zeldandev/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
 
-   # Virtual Machine (Installs Common + i3/X11)
-   ./setup.sh --i3
+### 2 — Run the bootstrap script
 
-   # macOS (Automatically detected, installs Common + macOS specifics)
-   ./setup.sh
+```bash
+# Interactive mode — the script will ask which environment to set up
+./setup.sh
 
-   # Optional: Include GUI Casks and Nerd Fonts (JetBrainsMono Nerd Font)
-   ./setup.sh --casks
-   ```
-   > **Note:** The script is intelligent. It will install Homebrew packages from `Brewfile` (and optionally `Brewfile.cask`), initialize Git submodules (Zsh plugins, TPM), configure VSCodium, and symlink all files securely using `stow`.
+# Or pass a flag directly to skip the prompt:
+./setup.sh --dms    # Main Linux desktop  (common + DankMaterialShell/Wayland)
+./setup.sh --i3     # Virtual machine     (common + i3 / X11)
+./setup.sh --wsl    # Windows Subsystem for Linux (common, WSL-optimized)
+./setup.sh          # macOS               (auto-detected, common + macOS specifics)
+./setup.sh --common # Base only           (common package, no WM)
+```
 
-3. **Install OS-specific apps & docs:**
-   Check the `misc/` folder for additional scripts and documentation (`git.md`, `ssh.md`, `nvim.md`).
+#### Package manager options
 
-## 🔧 Local Customization (Machine-Specific Settings)
+```bash
+./setup.sh --brew      # Force Homebrew (install it if missing)
+./setup.sh --no-brew   # Force native package manager (apt / pacman / dnf / zypper / apk)
+./setup.sh --casks     # Also install GUI apps & fonts from Brewfile.cask (macOS)
+```
 
-These dotfiles support loading local, untracked configuration files per-machine. This allows you to define custom paths, API keys, aliases, or environment variables unique to a specific computer without modifying the Git repository.
+> [!NOTE]
+> **Homebrew is optional.** If it is not detected, the script offers to install
+> it or fall back to your system package manager. If `stow` is missing, a native
+> `ln -sf` fallback is used automatically.
 
-To add machine-specific settings, simply create one or more of the following files in your `$HOME` directory:
+> [!TIP]
+> Conflicting files are **never silently deleted** — they are renamed to
+> `<file>.backup` before being replaced by a symlink.
 
-| Local File | Purpose | Loaded By |
-| --- | --- | --- |
-| `~/.profile.local` | Custom user environment variables & generic system-wide settings | `~/.profile` (System Login) |
-| `~/.zprofile.local` | Custom shell login initializations (e.g. machine-specific paths) | `~/.zprofile` (Zsh Login) |
-| `~/.zshrc.local` | Custom interactive terminal configs, local aliases, or functions | `~/.zshrc` (Interactive Zsh) |
+### 3 — What the script does
 
-> 💡 **Note:** All `*.local` files are ignored by Git (configured in `.gitignore`), ensuring your personal API keys and local paths are never accidentally pushed to public repositories.
+```
+1. Installs missing CLI dependencies (git, tmux, nvim, fzf, ripgrep, bat, eza, zoxide, lazygit …)
+2. Updates Git submodules
+3. Cleans up any stale legacy symlinks
+4. Symlinks config files with GNU Stow (or native fallback)
+5. Links VS Code / VSCodium settings and installs extensions (if installed)
+6. Installs Tmux Plugin Manager (TPM)
+```
+
+After the first run, open Neovim (`nvim`) and lazy.nvim will automatically
+install all plugins. Mason will then install the configured language servers.
+
+---
+
+## 📂 Repository Structure
+
+```
+dotfiles/
+│
+├── common/                         # ✅ Installed on EVERY machine
+│   └── .config/
+│       ├── nvim/                   # Neovim config (Lua, lazy.nvim) → see nvim/README.md
+│       ├── tmux/tmux.conf          # Tmux config (TPM, Rosé Pine, vi-copy, Resurrect)
+│       ├── kitty/                  # Kitty terminal themes & config
+│       ├── shell/
+│       │   ├── aliasrc             # Shared aliases (ls→eza, cat→bat, lg, chuleta …)
+│       │   ├── envrc               # Environment variables (EDITOR, LANG, mise …)
+│       │   └── pathrc              # PATH additions
+│       ├── starship.toml           # Starship prompt config
+│       └── VSCodium/               # VS Code / VSCodium settings & keybindings
+│   ├── .zshrc                      # Zsh config (Vi-mode, fzf, zoxide, completions)
+│   ├── .zprofile                   # Zsh login shell (Homebrew env, mise activate)
+│   ├── .profile                    # POSIX profile (sourced by login shells)
+│   ├── .ideavimrc                  # IdeaVim config for IntelliJ / JetBrains IDEs
+│   └── .xsessionrc                 # X session startup script
+│
+├── wayland-dms/                    # 🖥️  Main Linux desktop (Wayland)
+│   └── .config/DankMaterialShell/ # DankMaterialShell settings & Firefox CSS
+│
+├── x11-i3/                         # 🖥️  Virtual machine / X11 setup
+│   ├── .config/i3/                 # i3 window manager config
+│   ├── .config/polybar/            # Polybar status bar
+│   ├── .config/rofi/               # Rofi launcher, powermenu, themes (Catppuccin)
+│   ├── .config/picom/              # Picom compositor (shadows, blur, animations)
+│   └── .local/bin/                 # Rofi helper scripts
+│
+├── macos/                          # 🍎 macOS only
+│   └── .config/iterm2/             # iTerm2 config & profile
+│
+├── misc/                           # 📖 Helper scripts & documentation
+│   ├── debian/                     # Debian / Ubuntu setup scripts
+│   │   ├── 00_0-essential.sh       # Essential packages
+│   │   ├── 00_1-i3-install.sh      # i3 + Polybar installation
+│   │   ├── 00_2-gui-apps.sh        # GUI apps
+│   │   ├── 00_3-set-zsh-default.sh # Set Zsh as default shell
+│   │   ├── 01-linux-brew.sh        # Homebrew for Linux
+│   │   ├── 05-Fonts.sh             # Nerd Fonts installer
+│   │   ├── 07-mise-packages.sh     # mise (Node, Python, Go …) setup
+│   │   └── 08-docker.sh            # Docker CE installation
+│   ├── mac/mac-install.sh          # macOS post-install steps
+│   ├── git.md                      # Git setup guide (GPG signing, SSH, Delta)
+│   ├── ssh.md                      # SSH key setup guide
+│   └── nvim.md                     # Neovim manual install guide (when PPA unavailable)
+│
+├── Brewfile                        # Core Homebrew formulas
+├── Brewfile.cask                   # Optional GUI casks & Nerd Fonts
+├── setup.sh                        # Idempotent bootstrap script
+└── cheatsheet.md                   # Unified keybinding reference (Tmux + Neovim + Zsh)
+```
+
+---
+
+## 🔧 Local / Machine-Specific Config
+
+These files are sourced automatically but **never committed** (listed in
+`.gitignore`). Create them in `$HOME` to add per-machine settings without
+touching the repo:
+
+| File | Sourced by | Purpose |
+| :--- | :--- | :--- |
+| `~/.profile.local` | `~/.profile` | System-wide env vars, generic paths |
+| `~/.zprofile.local` | `~/.zprofile` | Zsh login init (machine-specific PATH, tokens) |
+| `~/.zshrc.local` | `~/.zshrc` | Interactive Zsh: local aliases, functions, secrets |
+
+> [!CAUTION]
+> Never put API keys or tokens in tracked files. Use `~/.zshrc.local` instead —
+> it is git-ignored and sourced automatically on every new shell.
+
+---
 
 ## ⌨️ Unified Keybindings
 
-A major goal of these dotfiles is to maintain **keyboard consistency** across Neovim, IntelliJ (`IdeaVim`), Tmux, and the OS.
+All three environments share the same navigation muscle memory:
 
-To quickly view the complete shortcut list while working:
-- **In Tmux:** Press `Prefix + /` (`Ctrl+Space` then `/`) to spawn a floating cheatsheet.
-- **In Neovim:** Press `<Space> + ?`
-- **In Zsh:** Type `chuleta`
-- **In i3 (Global):** Press `Super + c`
+| Gesture | Everywhere |
+| :--- | :--- |
+| `Ctrl + h / j / k / l` | Move between Neovim splits **and** Tmux panes |
+| `Space` | Leader key in Neovim and IdeaVim |
+| `Ctrl + Space` | Tmux prefix |
 
-You can manually read the complete cheatsheet in [`cheatsheet.md`](cheatsheet.md).
+### Quick cheatsheet access
 
-## 📂 Repository Structure (Modular)
+| Where | How |
+| :--- | :--- |
+| **Neovim** | `<Space>?` — floating window with the full cheatsheet |
+| **Tmux** | `Prefix + /` (`Ctrl+Space` then `/`) — popup overlay |
+| **Zsh** | `chuleta` — opens cheatsheet.md in the terminal |
+| **i3 (X11)** | `Super + c` — opens cheatsheet in a floating window |
 
-This repository uses **Stow Packages** to keep configs modular and clean across different OS and environments:
-
-- **`common/`**: The base module installed everywhere (Neovim, Zsh, Tmux, Kitty).
-- **`wayland-dms/`**: Wayland environment configs (DankMaterialShell).
-- **`x11-i3/`**: X11 environment configs (i3, Polybar, Rofi, Picom) for VMs.
-- **`macos/`**: macOS specific GUI apps (iTerm2).
-- **`misc/`**: Helper scripts and documentation (`git.md`, `ssh.md`, `nvim.md`).
-- **`Brewfile`**: Core CLI Homebrew formulas (git, stow, tmux, neovim, fzf, zoxide, ripgrep, fd, bat, eza, git-delta, lazygit).
-- **`Brewfile.cask`**: Optional GUI Homebrew casks & fonts (`font-jetbrains-mono-nerd-font`).
-- **`setup.sh`**: The core idempotent bootstrap script.
+📄 Full reference: [`cheatsheet.md`](cheatsheet.md)
 
 ---
-*Managed with ❤️ and GNU Stow.*
 
+## 📦 Core Dependencies
+
+Installed automatically by `setup.sh` via Homebrew or the native package manager:
+
+| Tool | Purpose |
+| :--- | :--- |
+| `git` | Version control (required by everything) |
+| `stow` | Symlink manager (native fallback if missing) |
+| `tmux` | Terminal multiplexer |
+| `neovim` | Text editor |
+| `fzf` | Fuzzy finder (used in Zsh, Telescope, Tmux) |
+| `ripgrep` | Fast grep (required by Telescope live_grep) |
+| `fd` | Fast `find` alternative |
+| `zoxide` | Smart `cd` with frecency ranking |
+| `bat` | `cat` with syntax highlighting (used in fzf previews) |
+| `eza` | Modern `ls` with icons and tree view |
+| `lazygit` | Terminal UI for git |
+| `git-delta` | Side-by-side diff viewer for `git diff` / `git log` |
+
+**Optional (macOS, `--casks`):**
+
+| Tool | Purpose |
+| :--- | :--- |
+| `font-jetbrains-mono-nerd-font` | Nerd Font required by Kitty, Starship, Neovim icons |
+
+---
+
+## 🗑️ Uninstall
+
+```bash
+# Remove Neovim config and plugin data
+rm -rf ~/.config/nvim ~/.local/share/nvim
+
+# Remove all symlinks created by Stow (safe — leaves your real files untouched)
+stow -D common        # un-stow base package
+stow -D wayland-dms   # un-stow Wayland package (if installed)
+stow -D x11-i3        # un-stow i3 package (if installed)
+stow -D macos         # un-stow macOS package (if installed)
+```
+
+---
+
+*Managed with ❤️ and [GNU Stow](https://www.gnu.org/software/stow/).*

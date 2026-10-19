@@ -29,9 +29,11 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
   fi
 elif [[ "$(uname -s)" == "Linux" ]]; then
-  # Linuxbrew default installation path
+  # Linuxbrew installation paths (system-wide or home directory)
   if [ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  elif [ -x "$HOME/.linuxbrew/bin/brew" ]; then
+    eval "$("$HOME/.linuxbrew/bin/brew" shellenv)"
   fi
 fi
 
