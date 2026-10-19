@@ -50,3 +50,6 @@ dist/
 
 # Lazy.nvim lock file – keep private
 common/.config/nvim/lazy-lock.json
+
+# tmux plugins are cloned into ~/.local/share/tmux/plugins, never tracked here
+common/.config/tmux/plugins/

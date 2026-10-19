@@ -72,6 +72,70 @@ CYGWIN* | MINGW32* | MSYS* | MINGW*)
 	;;
 esac
 
+# --- Clipboard: unified `copy` / `paste` across macOS, Wayland, X11 ---
+# Usage:  echo "hello" | copy        (pipe)
+#         copy < file.txt             (redirect)
+#         copy "literal string"       (argument)
+copy() {
+  case "$(uname -s)" in
+    Darwin)
+      if [ $# -gt 0 ]; then
+        printf '%s' "$*" | pbcopy
+      else
+        pbcopy
+      fi
+      ;;
+    Linux)
+      if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then
+        if [ $# -gt 0 ]; then printf '%s' "$*" | wl-copy; else wl-copy; fi
+      elif [ -n "$DISPLAY" ] && command -v xclip >/dev/null 2>&1; then
+        if [ $# -gt 0 ]; then printf '%s' "$*" | xclip -selection clipboard; else xclip -selection clipboard; fi
+      elif [ -n "$DISPLAY" ] && command -v xsel >/dev/null 2>&1; then
+        if [ $# -gt 0 ]; then printf '%s' "$*" | xsel --clipboard --input; else xsel --clipboard --input; fi
+      elif [ -n "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+        # tmux buffer as last resort (no X/Wayland session)
+        tmux load-buffer -
+        echo "[copy] tmux buffer updated (no X11/Wayland detected)" >&2
+        return 0
+      else
+        echo "[copy] No clipboard backend found (install wl-clipboard or xclip)" >&2
+        return 1
+      fi
+      ;;
+    *)
+      echo "[copy] Unsupported OS" >&2
+      return 1
+      ;;
+  esac
+
+}
+
+paste() {
+  case "$(uname -s)" in
+    Darwin)
+      pbpaste
+      ;;
+    Linux)
+      if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste >/dev/null 2>&1; then
+        wl-paste --no-newline
+      elif [ -n "$DISPLAY" ] && command -v xclip >/dev/null 2>&1; then
+        xclip -selection clipboard -o
+      elif [ -n "$DISPLAY" ] && command -v xsel >/dev/null 2>&1; then
+        xsel --clipboard --output
+      elif [ -n "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+        tmux save-buffer -
+      else
+        echo "[paste] No clipboard backend found" >&2
+        return 1
+      fi
+      ;;
+    *)
+      echo "[paste] Unsupported OS" >&2
+      return 1
+      ;;
+  esac
+}
+
 # Alias fd to fdfind on Debian/Ubuntu systems
 if [ -x "$(command -v fdfind)" ]; then
 	alias fd="fdfind"

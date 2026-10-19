@@ -154,6 +154,12 @@ install_native_dependencies() {
   ! command -v zoxide >/dev/null 2>&1 && missing_pkgs+=("zoxide")
   ! (command -v eza >/dev/null 2>&1 || command -v lsd >/dev/null 2>&1) && missing_pkgs+=("eza")
 
+  # Clipboard utilities (Linux only - macOS has pbcopy/pbpaste natively)
+  if [[ "$MACHINE" == "Linux" ]]; then
+    ! command -v wl-copy >/dev/null 2>&1 && missing_pkgs+=("wl-clipboard")
+    ! command -v xclip   >/dev/null 2>&1 && missing_pkgs+=("xclip")
+  fi
+
   if [ ${#missing_pkgs[@]} -eq 0 ]; then
     success "All core dependencies are already installed on your system."
     if command -v nvim >/dev/null 2>&1; then
@@ -318,6 +324,16 @@ install_dependencies() {
         fi
       else
         warn "Brewfile not found."
+      fi
+
+      # Clipboard utilities are only needed on Linux; macOS provides pbcopy.
+      if [[ "$MACHINE" == "Linux" ]]; then
+        local clipboard_pkgs=()
+        ! command -v wl-copy >/dev/null 2>&1 && clipboard_pkgs+=("wl-clipboard")
+        ! command -v xclip >/dev/null 2>&1 && clipboard_pkgs+=("xclip")
+        if [ ${#clipboard_pkgs[@]} -gt 0 ]; then
+          brew install "${clipboard_pkgs[@]}" || warn "Some clipboard packages failed to install. Continuing..."
+        fi
       fi
 
       if [ "$install_casks" == "true" ] && [ -f "Brewfile.cask" ]; then
@@ -633,10 +649,18 @@ setup_vscodium() {
 }
 
 setup_tpm() {
-  local tpm_dir="$HOME/.config/tmux/plugins/tpm"
-  if [ ! -d "$tpm_dir" ]; then
+  local plugins_dir="${XDG_DATA_HOME:-$HOME/.local/share}/tmux/plugins"
+  local tpm_dir="$plugins_dir/tpm"
+  if [ ! -x "$tpm_dir/tpm" ]; then
     info "Installing Tmux Plugin Manager (TPM)..."
-    mkdir -p "$HOME/.config/tmux/plugins"
+    mkdir -p "$plugins_dir"
+    if [ -d "$tpm_dir" ]; then
+      if [ -n "$(find "$tpm_dir" -mindepth 1 -print -quit 2>/dev/null)" ]; then
+        warn "TPM directory exists but is incomplete: $tpm_dir"
+        return 0
+      fi
+      rmdir "$tpm_dir"
+    fi
     if git clone https://github.com/tmux-plugins/tpm "$tpm_dir" 2>/dev/null; then
       success "TPM installed."
     else

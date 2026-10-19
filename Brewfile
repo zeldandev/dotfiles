@@ -17,9 +17,9 @@ brew "fd"
 
 # Mejoras visuales en terminal (Alternativas modernas)
 brew "bat"
+brew "glow"
 brew "lsd"
 brew "eza"
 
 # Opcional recomendado (Git visual)
 brew "lazygit"
-

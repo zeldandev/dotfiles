@@ -102,7 +102,7 @@ dotfiles/
 ├── common/                         # ✅ Installed on EVERY machine
 │   └── .config/
 │       ├── nvim/                   # Neovim config (Lua, lazy.nvim) → see nvim/README.md
-│       ├── tmux/tmux.conf          # Tmux config (TPM, Rosé Pine, vi-copy, Resurrect)
+│       ├── tmux/tmux.conf          # Tmux config (TPM, vi-copy, Resurrect)
 │       ├── kitty/                  # Kitty terminal themes & config
 │       ├── shell/
 │       │   ├── aliasrc             # Shared aliases (ls→eza, cat→bat, lg, chuleta …)

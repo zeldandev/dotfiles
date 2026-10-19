@@ -12,15 +12,20 @@ Tu tecla prefijo de Tmux es **`Ctrl + Space`**.
 
 | Acción | Atajo |
 | :--- | :--- |
-| **Dividir panel vertical** | `Prefix` luego `v` |
-| **Dividir panel horizontal** | `Prefix` luego `s` |
+| **Dividir panel lado a lado** | `Prefix` luego `v` |
+| **Dividir panel arriba / abajo** | `Prefix` luego `s` |
 | **Crear nueva ventana (Tab)** | `Prefix` luego `c` |
 | **Maximizar / Restaurar panel (Zoom)** | `Prefix` luego `z` |
 | **Navegar a la última ventana** | `Prefix` luego `^` |
 | **Ir a ventana por número** | `Prefix` luego `1`..`9` |
 | **Renombrar ventana actual** | `Prefix` luego `,` |
 | **Renombrar sesión actual** | `Prefix` luego `$` |
+| **Cambiar de sesión / ventana / panel** | `Prefix` luego `S` *(selector)* |
+| **Cambiar al último panel usado** | `Prefix` luego `;` |
+| **Moverse entre paneles con el prefijo** | `Prefix` luego `h` / `j` / `k` / `l` |
 | **Redimensionar panel** | `Prefix` luego `H` / `J` / `K` / `L` |
+| **Desconectarse de la sesión** | `Prefix` luego `d` |
+| **Mostrar ayuda de atajos** | `Prefix` luego `?` |
 | **Recargar configuración** | `Prefix` luego `r` |
 | **Ver chuleta en popup flotante** | `Prefix` luego `/` |
 
@@ -34,7 +39,11 @@ Tu tecla prefijo de Tmux es **`Ctrl + Space`**.
 | **Iniciar Selección de texto** | `v` *(dentro del modo copia)* |
 | **Seleccionar línea completa** | `V` *(dentro del modo copia)* |
 | **Copiar al portapapeles del sistema** | `y` o `Enter` *(copia y sale)* |
+| **Buscar texto hacia delante / atrás** | `/` / `?` *(dentro del modo copia)* |
+| **Desplazarse por el historial** | `Ctrl + u` / `Ctrl + d` *(media pantalla)* |
 | **Cancelar / Salir del modo copia** | `Esc` o `q` |
+
+> El desplazamiento con el ratón entra en modo copia. Al arrastrar, la selección se mantiene activa para poder copiarla con `y` o `Enter`.
 
 ---
 
@@ -62,6 +71,10 @@ Tu tecla prefijo de Tmux es **`Ctrl + Space`**.
 > [!TIP]
 > **3. Persistencia de Sesión (`tmux-resurrect`):**
 > Guarda el estado de tus terminales con `Prefix + Ctrl + s`. Tras reiniciar el equipo, pulsa `Prefix + Ctrl + r` para restaurar todas tus ventanas, paneles y carpetas de trabajo.
+
+> [!TIP]
+> **4. Selector de sesiones (`Prefix + S`):**
+> Abre un selector interactivo para cambiar rápidamente entre sesiones, ventanas y paneles sin recordar sus nombres.
 
 ---
 

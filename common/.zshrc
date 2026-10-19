@@ -71,3 +71,6 @@ if [ -f "$HOME/.zshrc.local" ]; then
   source "$HOME/.zshrc.local"
 fi
 
+
+# opencode
+export PATH=/home/zeldan/.opencode/bin:$PATH

@@ -4,9 +4,6 @@
 [submodule ".config/shell/zsh/plugins/zsh-autosuggestions"]
 	path = common/.config/shell/zsh/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
-[submodule ".config/tmux/plugins/tpm"]
-	path = common/.config/tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
 [submodule ".config/shell/zsh/plugins/fast-syntax-highlighting"]
 	path = common/.config/shell/zsh/plugins/fast-syntax-highlighting
 	url = https://github.com/zdharma-continuum/fast-syntax-highlighting.git
