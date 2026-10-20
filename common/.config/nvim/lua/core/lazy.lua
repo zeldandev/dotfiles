@@ -23,38 +23,22 @@ end
 -- find and load it with a plain require("lazy") call.
 vim.opt.rtp:prepend(lazypath)
 
--- ─────────────────────────────────────────────────────────────────────────────
--- SYSTEM-SPECIFIC RUNTIME PATHS
--- On some Linux distributions (e.g., Ubuntu/Debian) the Neovim package ships
--- compiled tree-sitter parsers in a multiarch library path that is NOT on the
--- default runtimepath. We probe the known locations and add any that exist so
--- that those system parsers are available alongside the ones managed by
--- nvim-treesitter itself.
--- ─────────────────────────────────────────────────────────────────────────────
-local fs = vim.uv or vim.loop
-local extra_rtp = {}
-for _, p in ipairs({
-  "/usr/lib/x86_64-linux-gnu/nvim",
-  "/usr/lib/aarch64-linux-gnu/nvim",
-}) do
-  if fs.fs_stat(p) then
-    table.insert(extra_rtp, p)
-  end
+-- Neovim generates its help tags before lazy.nvim loads plugins. Keep the
+-- parsers managed by nvim-treesitter visible during that early phase too.
+local treesitter_path = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter"
+if (vim.uv or vim.loop).fs_stat(treesitter_path) then
+  vim.opt.rtp:append(treesitter_path)
 end
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- LAZY SETUP
 -- require("lazy").setup("plugins") tells lazy.nvim to auto-discover every
 -- .lua file inside lua/plugins/ and treat each returned table as a plugin spec.
--- performance.rtp.reset = false prevents lazy from wiping the extra paths we
--- added above, and paths = extra_rtp appends them to the final runtime path
--- so they survive after lazy has finished reorganising the rtp.
 -- ─────────────────────────────────────────────────────────────────────────────
 require("lazy").setup("plugins", {
   performance = {
     rtp = {
-      reset = false,    -- do not reset rtp to Neovim defaults; keep our custom additions
-      paths = extra_rtp, -- inject the system-level multiarch nvim paths discovered above
+      reset = false,
     },
   },
 })

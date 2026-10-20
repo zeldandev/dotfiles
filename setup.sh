@@ -147,6 +147,24 @@ install_native_dependencies() {
 
   # Modern CLI tools from Brewfile
   ! command -v nvim >/dev/null 2>&1 && missing_pkgs+=("neovim")
+  # nvim-treesitter's current API requires tree-sitter-cli >= 0.26.1.
+  # Checking only command -v is insufficient because older distro packages
+  # expose the executable but do not provide the `build` subcommand.
+  local tree_sitter_version=""
+  if command -v tree-sitter >/dev/null 2>&1; then
+    tree_sitter_version="$(tree-sitter --version 2>/dev/null | sed -E 's/.* ([0-9]+\.[0-9]+\.[0-9]+).*/\1/' || true)"
+  fi
+  if [[ ! "$tree_sitter_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    missing_pkgs+=("tree-sitter-cli")
+  else
+    local ts_major="${tree_sitter_version%%.*}"
+    local ts_minor="${tree_sitter_version#*.}"
+    ts_minor="${ts_minor%%.*}"
+    local ts_patch="${tree_sitter_version##*.}"
+    if (( ts_major == 0 && (ts_minor < 26 || (ts_minor == 26 && ts_patch < 1)) )); then
+      missing_pkgs+=("tree-sitter-cli")
+    fi
+  fi
   ! command -v rg >/dev/null 2>&1 && missing_pkgs+=("ripgrep")
   ! (command -v fd >/dev/null 2>&1 || command -v fdfind >/dev/null 2>&1) && missing_pkgs+=("fd")
   ! command -v fzf >/dev/null 2>&1 && missing_pkgs+=("fzf")

@@ -8,6 +8,7 @@ brew "tmux"
 
 # Editor (Neovim moderno)
 brew "neovim"
+brew "tree-sitter"
 
 # Herramientas de búsqueda y navegación (Requeridas por zshrc y neovim)
 brew "fzf"
