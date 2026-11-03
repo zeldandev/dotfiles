@@ -33,7 +33,7 @@ format = "[$symbol$branch ]($style) "
 style = "bright-black"
 
 [git_status]
-format = "([$all_status$ahead_behind$stashed]($style)"
+format = "([$all_status$ahead_behind$stashed]($style))"
 style = "cyan"
 conflicted = "⚠️"
 untracked = "?"
